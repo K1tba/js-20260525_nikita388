@@ -6,4 +6,40 @@
  */
 export function sortStrings(arr, param = 'asc') {
 
+  /* Касаемо проверки строки неуверен, вроде как более надежно будет через
+  "Object.prototype.toString.call()", но все же остановился на "typeof" */
+  if (!Array.isArray(arr) || typeof param !== 'string') {
+    return;
+  }
+
+  const upperParam = param.toUpperCase();
+
+  let byOrder;
+  if (upperParam === 'ASC' || upperParam === 'DESC') {
+    byOrder = upperParam;
+  }
+  else {
+    byOrder = 'ASC';
+  }
+
+  const mainCollator = new Intl.Collator(
+    ['ru-RU', 'en-US'],
+    {
+      usage: "sort",
+      caseFirst: "upper",
+    }
+  );
+  
+  let sortedArray = [...arr];
+  sortedArray.sort((a, b) => {
+    let comparison = mainCollator.compare(a, b);
+
+    if (byOrder === 'DESC') {
+      return -comparison;
+    }
+
+    return comparison;
+  });
+
+  return sortedArray;
 }
