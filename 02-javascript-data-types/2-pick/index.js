@@ -24,8 +24,14 @@ export const pick = (obj, ...fields) => {
   Так как чисто теоретически оно всегда массив */
 
   let newObject = {};
-  for (let key of fields) {
-    if (key in obj) {
+//  for (let key of fields) {
+//    if (key in obj) {
+//      newObject[key] = obj[key];
+//    }
+//  }
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (fields.includes(key)) {
       newObject[key] = obj[key];
     }
   }

@@ -1,3 +1,11 @@
+const MAIN_COLLATOR = new Intl.Collator(
+  ['ru-RU', 'en-US'],
+  {
+    usage: "sort",
+    caseFirst: "upper",
+  }
+);
+
 /**
  * sortStrings - sorts array of string by two criteria "asc" or "desc"
  * @param {string[]} arr - the array of strings
@@ -21,18 +29,9 @@ export function sortStrings(arr, param = 'asc') {
   else {
     byOrder = 'ASC';
   }
-
-  const mainCollator = new Intl.Collator(
-    ['ru-RU', 'en-US'],
-    {
-      usage: "sort",
-      caseFirst: "upper",
-    }
-  );
   
-  let sortedArray = [...arr];
-  sortedArray.sort((a, b) => {
-    let comparison = mainCollator.compare(a, b);
+  const sortedArray = [...arr].sort((a, b) => {
+    let comparison = MAIN_COLLATOR.compare(a, b);
 
     if (byOrder === 'DESC') {
       return -comparison;
